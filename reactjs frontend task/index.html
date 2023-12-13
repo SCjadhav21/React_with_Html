@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Editable Table</title>
+    <script
+      src="https://unpkg.com/react@17/umd/react.development.js"
+      crossorigin
+    ></script>
+    <script
+      src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"
+      crossorigin
+    ></script>
+  </head>
+  <body>
+    <div id="root">like</div>
+    <style>
+      table {
+        border-collapse: collapse;
+        width: 100%;
+      }
+
+      th,
+      td {
+        border: 1px solid black;
+        padding: 8px;
+        text-align: left;
+      }
+    </style>
+    <script type="text/javascript">
+      const { useState, createElement } = React;
+
+      const Table = () => {
+        const [data, setData] = useState([
+          {
+            id: 1,
+            productName: "WildHorn Leather Wallet for Men",
+            description:
+              "Ultra Strong Stitching I 6 Credit Card Slots I 2 Currency Compartments I 1 Coin Pocket",
+          },
+          {
+            id: 2,
+            productName: "Dettol Liquid",
+            description:
+              "Handwash Refill – Skincare Hand Wash- 1500ml | pH Balanced | 10x Better Germ Protection",
+          },
+          {
+            id: 3,
+            productName: "BoldHealth Eye Mask",
+            description:
+              "Cooling Eyes, Pain Relief, Redness, Eye Patches Eye Cooling Gel Pad Stretchable for Eye Relaxing for Women and Men Eye Mask Gel-",
+          },
+          {
+            id: 4,
+            productName: "Bangle",
+            description:
+              "Shining Diva Fashion Royal Traditional Bangle Stylish Bracelet for Women & Girls(Multi-Colour)",
+          },
+        ]);
+
+        const handelChange = (id, columnName, changedValue) => {
+          const newData = data.map((element) =>
+            element.id === id
+              ? { ...element, [columnName]: changedValue }
+              : element
+          );
+          console.log(newData);
+        };
+
+        return createElement(
+          "table",
+          null,
+          createElement(
+            "thead",
+            null,
+            createElement(
+              "tr",
+              null,
+              createElement("th", null, "ID"),
+              createElement("th", null, "Product Name"),
+              createElement("th", null, "Description")
+            )
+          ),
+          createElement(
+            "tbody",
+            null,
+            data.map((item) =>
+              createElement(
+                "tr",
+                { key: item.id },
+                createElement("td", null, item.id),
+                createElement(
+                  "td",
+                  {
+                    onBlur: (e) =>
+                      handelChange(item.id, "productName", e.target.innerText),
+                    contentEditable: true,
+                  },
+                  item.productName
+                ),
+                createElement(
+                  "td",
+                  {
+                    onBlur: (e) =>
+                      handelChange(item.id, "description", e.target.innerText),
+                    contentEditable: true,
+                  },
+                  item.description
+                )
+              )
+            )
+          )
+        );
+      };
+
+      ReactDOM.render(
+        React.createElement(Table),
+        document.getElementById("root")
+      );
+    </script>
+  </body>
+</html>

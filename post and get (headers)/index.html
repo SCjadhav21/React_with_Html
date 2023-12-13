@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>React.js Editable Table</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <script
+      src="https://unpkg.com/react@17/umd/react.development.js"
+      crossorigin
+    ></script>
+    <script
+      src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"
+      crossorigin
+    ></script>
+  </head>
+  <body>
+    <div id="root">like</div>
+    <style>
+      table {
+        border-collapse: collapse;
+        width: 100%;
+      }
+
+      th,
+      td {
+        border: 1px solid black;
+        padding: 8px;
+        text-align: left;
+      }
+    </style>
+    <script type="text/javascript">
+      const { useState, useEffect, createElement } = React;
+
+      const Table = () => {
+        const [data, setData] = useState([]);
+        const postData = { phonenumber: "1234567891" };
+        const getData = () => {
+          axios
+            .post("https://chimpu.xyz/api/post.php", postData, {
+              withCredentials: true,
+              headers: {
+                "Content-Type": "application/json", // Set the content type if sending JSON data
+                phonenumber: 1234567891,
+              },
+              credentials: "include",
+            })
+            .then(function (response) {
+              console.log(response.headers);
+              setData(response.headers);
+            })
+            .catch(function (error) {
+              console.error("Error:", error);
+            });
+        };
+        useEffect(() => {
+          getData();
+        }, []);
+
+        return createElement(
+          "table",
+          null,
+          createElement(
+            "thead",
+            null,
+            createElement(
+              "tr",
+              null,
+              createElement("th", null, "SR.NO"),
+              createElement("th", null, "Headers Name"),
+              createElement("th", null, "Value")
+            )
+          ),
+          createElement(
+            "tbody",
+            null,
+            data?.map((item, index) =>
+              createElement(
+                "tr",
+                { key: index },
+                createElement("td", null, ++index),
+                createElement("td", null, item.name),
+                createElement("td", null, item.value)
+              )
+            )
+          )
+        );
+      };
+
+      ReactDOM.render(
+        React.createElement(Table),
+        document.getElementById("root")
+      );
+    </script>
+  </body>
+</html>

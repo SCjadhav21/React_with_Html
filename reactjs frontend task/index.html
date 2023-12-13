@@ -65,7 +65,17 @@
               ? { ...element, [columnName]: changedValue }
               : element
           );
-          console.log(newData);
+          // post data after updating table
+          //   fetch("dummy-handel", {
+          //     method: "POST",
+          //     body: newData,
+          //     headers: {
+          //       "content-type": "application/json",
+          //     },
+          //   })
+          //     .then((res) => res.json())
+          //     .then((res) => console.log(re))
+          //     .catch((err) => console.log(err));
         };
 
         return createElement(
